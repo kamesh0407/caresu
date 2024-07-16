@@ -4,17 +4,20 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
- 
+import { Form } from "@/components/ui/form"
+import CustomFormField from "../CustomFormField"
+
+//exporting enum to CustomFormField
+ export enum FormFieldType {
+  //These all are the different type of Form fields that can be used in the form
+  INPUT = "input",
+  TEXTAREA = "textarea",
+  PHONE_INPUT = "phoneInput",
+  CHECKBOX = "checkbox",
+  DATE_PICKER = "datePicker",
+  SELECT = "select",
+  SKELETON = "skeleton",
+ }
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -43,6 +46,17 @@ const PatientForm = () => {
             <h1 className="header">Hi there 👋🏻</h1>
             <p className="text-dark-700">Schedule your first appointment.</p>
         </section>
+        
+        <CustomFormField 
+        //We are passing the props to CustomFormField, to reuse the code
+        fieldType={FormFieldType.INPUT} //enum will be set to field type
+        control = {form.control}
+        name="name" //the unique will sent to CustomFormField
+        label="Full name"
+        placeholder="John Doe"
+        iconSrc="/assets/icons/user.svg"
+        iconAlt="User"
+        />
      
       <Button type="submit">Submit</Button>
     </form>
