@@ -13,10 +13,11 @@ import { useRouter } from "next/navigation"
 import { createUser } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Doctors, GenderOptions } from "@/constants";
+import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
 import { Label } from "../ui/label";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
+import FileUploader from "../FileUploader";
 
 
 
@@ -284,7 +285,48 @@ const RegisterForm = ({user}: {user: User }) => {
           <h2 className="sub-header">Identification and Verification</h2>
           </div>
         </section>
+
+        <CustomFormField //we need to pass the props to CustomFormField, for above two it has INPUT, for this it has PHONE_INPUT
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.SELECT} //enum will be set to field type
+            control = {form.control}
+            name="identificationType" //the unique will sent to CustomFormField
+            label="Identification Type"
+            placeholder="Select an Identification Type"
+          >
+           {IdentificationTypes.map((type) => (
+            <SelectItem key={type} value={type}>
+              {type}
+            </SelectItem>
+           ))}
+          </CustomFormField>
+
+          <CustomFormField 
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.INPUT} //enum will be set to field type
+            control = {form.control}
+            name="identificationNumber" //the unique will sent to CustomFormField
+            label="Identification Number"
+            placeholder="123456789"
+            
+            /> 
      
+           <CustomFormField //we need to pass the props to CustomFormField, for above two it has INPUT, for this it has PHONE_INPUT
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.SKELETON} //enum will be set to field type
+            control = {form.control}
+            name="identificationDocument" //the unique will sent to CustomFormField
+            label="Scanned Copy of Identification Document"
+            renderSkeleton={(field) => (
+              <FormControl>
+                <FileUploader files={field.value} onChange={field.onChange}/>
+
+                
+              </FormControl>
+            )}
+            />
+
+
       <SubmitButton isLoading={isLoading}>
          Get Started
       </SubmitButton>
