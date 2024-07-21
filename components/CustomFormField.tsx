@@ -13,6 +13,11 @@ import Image from "next/image"
 import 'react-phone-number-input/style.css'
 import PhoneInput from "react-phone-number-input"
 import { E164Number } from 'libphonenumber-js/core'
+
+import DatePicekr from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 interface CustomProps {
     control: Control<any>,
     fieldType: FormFieldType, //enum will be set to field type
@@ -30,7 +35,7 @@ interface CustomProps {
 //We can have multiple fields in the form, so we are creating a separate component for the field. 
 //----------time saving and reusability----------//
 const RenderField = ({field, props}: {field: any; props: CustomProps}) => {
-    const { fieldType, iconSrc, iconAlt, placeholder } = props;
+    const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props;
    switch (fieldType) {
     case FormFieldType.INPUT: //if the field type is INPUT
         return(
@@ -62,6 +67,33 @@ const RenderField = ({field, props}: {field: any; props: CustomProps}) => {
                      />
             </FormControl>
         )
+    case FormFieldType.DATE_PICKER:
+        return(
+            <div className="flex rounded-md border border-dark-500 bg-dark-400">
+                    <Image
+                        src="/assets/icons/calendar.svg"
+                        height={24}
+                        width={24}
+                        alt="calendar"
+                        className="ml-2"
+                    />
+                    <FormControl>
+                        <DatePicekr 
+                        selected={field.value} 
+                        onChange={(date) => 
+                        field.onChange (date)}
+                        dateFormat={dateFormat ?? 'dd/MM/yyyy'}
+                        showTimeSelect={showTimeSelect ?? false}
+                        timeInputLabel="Time:"
+                        wrapperClassName="date-picker"
+                        />
+                    </FormControl>
+            </div>
+        )
+    
+    case FormFieldType.SKELETON:
+        return renderSkeleton ? renderSkeleton(field) : null
+        
 
         default:
             break;
