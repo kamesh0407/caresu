@@ -13,8 +13,10 @@ import { useRouter } from "next/navigation"
 import { createUser } from "@/lib/actions/patient.actions"
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { GenderOption } from "@/constants";
+import { Doctors, GenderOptions } from "@/constants";
 import { Label } from "../ui/label";
+import { SelectItem } from "../ui/select";
+import Image from "next/image";
 
 
 
@@ -60,7 +62,7 @@ const RegisterForm = ({user}: {user: User }) => {
         </section>
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
-          <h2 className="sub-header">Personal Information.</h2>
+          <h2 className="sub-header">Personal Information</h2>
           </div>
         </section>
         
@@ -120,7 +122,7 @@ const RegisterForm = ({user}: {user: User }) => {
                   className="flex h-11 gap-6 xl:justify-between" 
                   onValueChange={field.onChange} 
                   defaultValue={field.value}>
-                    {GenderOption.map((option) => (
+                    {GenderOptions.map((option) => (
                        <div key={option}
                        className="radio-group"
                        >
@@ -137,20 +139,151 @@ const RegisterForm = ({user}: {user: User }) => {
             />
         </div>
 
-        <div className="flex flex-col gap-6 xl:flex-row">
+        
 
+        <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField 
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.INPUT} //enum will be set to field type
+            control = {form.control}
+            name="address" //the unique will sent to CustomFormField
+            label="Address"
+            placeholder="streets, city, state, country"
+            
+            />  
+
+            <CustomFormField 
+             //We are passing the props to CustomFormField, to reuse the code
+             fieldType={FormFieldType.INPUT} //enum will be set to field type
+             control = {form.control}
+             name="occupation" //the unique will sent to CustomFormField
+             label="Occupation"
+             placeholder="Software Engineer"
+             
+             />  
         </div>
 
         <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField 
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.INPUT} //enum will be set to field type
+            control = {form.control}
+            name="emergencyContactName" //the unique will sent to CustomFormField
+            label="Emergency Contact Name"
+            placeholder="Guardian's Name"
+            />  
 
+            <CustomFormField //we need to pass the props to CustomFormField, for above two it has INPUT, for this it has PHONE_INPUT
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.PHONE_INPUT} //enum will be set to field type
+            control = {form.control}
+            name="emergencyContactNumber" //the unique will sent to CustomFormField
+            label="Emergency Contact Number"
+            placeholder="(+91) 99999-55555"
+            />
+        </div>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+          <h2 className="sub-header">Medical Information</h2>
+          </div>
+        </section>
+
+        <CustomFormField //we need to pass the props to CustomFormField, for above two it has INPUT, for this it has PHONE_INPUT
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.SELECT} //enum will be set to field type
+            control = {form.control}
+            name="primaryPhysician" //the unique will sent to CustomFormField
+            label="Primary Physician"
+            placeholder="Select a Physician"
+          >
+           {Doctors.map((doctor) => (
+            <SelectItem key={doctor.name} value={doctor.name}>
+                <div className="flex cursor-pointer items-center gap-2">
+                  <Image 
+                  src={doctor.image}
+                  width={32}
+                  height={32}
+                  alt={doctor.name}
+                  className="rounded-full border border-dark-500" 
+                  />
+                  <p>{doctor.name}</p>
+                </div>
+            </SelectItem>
+           ))}
+          </CustomFormField>
+          
+        <div className="flex flex-col gap-6 xl:flex-row">
+            <CustomFormField 
+            //We are passing the props to CustomFormField, to reuse the code
+            fieldType={FormFieldType.INPUT} //enum will be set to field type
+            control = {form.control}
+            name="insuranceProvider" //the unique will sent to CustomFormField
+            label="Insurance Provider"
+            placeholder="Policy Bazaar Insurance"
+            
+            />  
+
+            <CustomFormField 
+             //We are passing the props to CustomFormField, to reuse the code
+             fieldType={FormFieldType.INPUT} //enum will be set to field type
+             control = {form.control}
+             name="insurancePolicyNumber" //the unique will sent to CustomFormField
+             label="Insurance Policy Number"
+             placeholder="ABC78787878"
+             
+             />  
         </div>
 
         <div className="flex flex-col gap-6 xl:flex-row">
+              <CustomFormField 
+              //We are passing the props to CustomFormField, to reuse the code
+              fieldType={FormFieldType.TEXTAREA} //enum will be set to field type
+              control = {form.control}
+              name="allergies" //the unique will sent to CustomFormField
+              label="Allergies (if any)"
+              placeholder="pollen, dust, etc."
+              
+              />  
 
+              <CustomFormField 
+              //We are passing the props to CustomFormField, to reuse the code
+              fieldType={FormFieldType.TEXTAREA} //enum will be set to field type
+              control = {form.control}
+              name="currentMedication" //the unique will sent to CustomFormField
+              label="Current Medication (if any)"
+              placeholder="paracetamol 650, Amlong 10mg, etc."
+              
+              />  
         </div>
+        
+        <div className="flex flex-col gap-6 xl:flex-row">
+              <CustomFormField 
+              //We are passing the props to CustomFormField, to reuse the code
+              fieldType={FormFieldType.TEXTAREA} //enum will be set to field type
+              control = {form.control}
+              name="familyMedicalHistory" //the unique will sent to CustomFormField
+              label="Family Medical History"
+              placeholder="Mother had diabetes, father had migraine, etc."
+              
+              />  
 
-
-       
+              <CustomFormField 
+              //We are passing the props to CustomFormField, to reuse the code
+              fieldType={FormFieldType.TEXTAREA} //enum will be set to field type
+              control = {form.control}
+              name="pastMedicalHistory" //the unique will sent to CustomFormField
+              label="Past Medical History"
+              placeholder="surgery, accident, etc."
+              
+              />  
+        </div>
+           
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+          <h2 className="sub-header">Identification and Verification</h2>
+          </div>
+        </section>
      
       <SubmitButton isLoading={isLoading}>
          Get Started
