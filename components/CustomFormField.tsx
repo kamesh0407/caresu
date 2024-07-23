@@ -14,11 +14,12 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from "react-phone-number-input"
 import { E164Number } from 'libphonenumber-js/core'
 
-import DatePicekr from "react-datepicker";
+import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 
 interface CustomProps {
     control: Control<any>,
@@ -81,6 +82,20 @@ const RenderField = ({field, props}: {field: any; props: CustomProps}) => {
                      />
             </FormControl>
         )
+    case FormFieldType.CHECKBOX:
+        return (<FormControl>
+            <div className="flex items-center gap-4">
+                <Checkbox 
+                id={props.name}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                />
+                <label htmlFor={props.name} className="checkbox-label">
+                    {props.label}
+                </label>
+            </div>
+        </FormControl>
+    )
     case FormFieldType.DATE_PICKER:
         return(
             <div className="flex rounded-md border border-dark-500 bg-dark-400">
@@ -92,7 +107,7 @@ const RenderField = ({field, props}: {field: any; props: CustomProps}) => {
                         className="ml-2"
                     />
                     <FormControl>
-                        <DatePicekr 
+                        <DatePicker 
                         selected={field.value} 
                         onChange={(date) => 
                         field.onChange (date)}
@@ -121,15 +136,13 @@ const RenderField = ({field, props}: {field: any; props: CustomProps}) => {
                     </SelectContent>
                 </Select>
             </FormControl>
-        )
-   
-    
+        );
     case FormFieldType.SKELETON:
         return renderSkeleton ? renderSkeleton(field) : null
-        
-
         default:
             break;
+    
+        
    }
 }
 
