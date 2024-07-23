@@ -48,7 +48,9 @@ export const registerPatient = async ({identificationDocument, ...patient}: Regi
 
                 file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile)
         }
-       
+        console.log({
+            
+        })
 
         const newPatient = await databases.createDocument(
             DATABASE_ID!,
