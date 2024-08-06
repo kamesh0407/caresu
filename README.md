@@ -26,7 +26,12 @@
     <pre><code>npm run dev</code></pre>
     <p>▲ <strong>Next.js 14.2.5</strong></p>
     <p><strong>Localhost:</strong> <a href="http://localhost:3000">http://localhost:3000</a></p>
-
+<h2>Demonstration 📹</h2>
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=NGO-O2mL6GI">
+    <img src="https://img.youtube.com/vi/NGO-O2mL6GI/0.jpg" alt="CaresU Demo" width="600">
+  </a>
+</p>
   <h2>💻 Terminal Installations</h2>
     <h3>Installing Next.js Packages</h3>
     <pre><code>npx create-next-app@latest ./</code></pre>
